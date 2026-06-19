@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+
+# Environment files and secrets
+.env*
+*.pem
+*.key
+*.pub
+secrets.json
+credentials.json
+
+# Build and OS files
+dist/
+build/
+.DS_Store
+Thumbs.db
+
+# IDE and local environment metadata
+.idea/
+.vscode/
+.history/
+.direnv/
