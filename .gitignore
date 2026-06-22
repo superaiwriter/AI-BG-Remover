@@ -1,0 +1,29 @@
+# Dependencies & Build
+node_modules/
+dist/
+build/
+out/
+.next/
+.svelte-kit/
+
+# Secrets & Environment
+.env*
+*.pem
+*.key
+*.pub
+*.p12
+*.pfx
+secrets.json
+credentials.json
+
+# IDE & OS Metadata
+.idea/
+.vscode/
+.history/
+.direnv/
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
