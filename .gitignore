@@ -1,0 +1,34 @@
+# Dependencies
+node_modules/
+.pnpm-debug.log*
+
+# Environment Variables
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Build Output
+dist/
+build/
+.next/
+
+# Debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Secrets
+**/*.key
+**/*.pem
+**/*.p12
+credentials.json
+secrets.json
