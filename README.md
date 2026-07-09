@@ -9,3 +9,7 @@
   <a href="https://aistudio.google.com/apps">Start building</a>
 
 </div>
+
+## Security
+
+We take security seriously. If you find a vulnerability, please report it following our [Security Policy](SECURITY.md).
