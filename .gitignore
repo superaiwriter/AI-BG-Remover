@@ -1,0 +1,14 @@
+# Dependencies & Build
+node_modules/
+dist/
+
+# Environment & Secrets
+.env*
+!.env.example
+*.key
+*.pem
+
+# IDE & OS
+.vscode/
+.idea/
+.DS_Store
