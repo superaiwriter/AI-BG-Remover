@@ -8,4 +8,6 @@
 
   <a href="https://aistudio.google.com/apps">Start building</a>
 
+  <p>Please see <a href="SECURITY.md">SECURITY.md</a> for our security policy.</p>
+
 </div>
