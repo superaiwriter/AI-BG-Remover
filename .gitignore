@@ -1,0 +1,20 @@
+# Dependencies & Build
+node_modules/
+dist/
+
+# Environment & Secrets
+.env*
+!.env.example
+*.key
+*.pem
+*.pub
+*.p12
+*.pfx
+secrets.json
+credentials.json
+
+# IDE, Local History, & OS
+.vscode/
+.idea/
+.history/
+.DS_Store
