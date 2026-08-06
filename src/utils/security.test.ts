@@ -1,0 +1,95 @@
+import { describe, it, expect } from 'vitest';
+import { validateImageProperties, validateSafeFilename } from './security.js';
+
+describe('Sentinel Security Input Validation', () => {
+  describe('validateImageProperties', () => {
+    it('should allow valid image formats within size limit', () => {
+      expect(validateImageProperties(1024 * 1024, 'image/png')).toBe(true);
+      expect(validateImageProperties(5 * 1024 * 1024, 'image/jpeg')).toBe(true);
+      expect(validateImageProperties(9.9 * 1024 * 1024, 'image/webp')).toBe(
+        true,
+      );
+    });
+
+    it('should reject files exceeding the 10MB limit', () => {
+      expect(validateImageProperties(11 * 1024 * 1024, 'image/png')).toBe(
+        false,
+      );
+    });
+
+    it('should reject files with negative or zero size', () => {
+      expect(validateImageProperties(0, 'image/png')).toBe(false);
+      expect(validateImageProperties(-100, 'image/png')).toBe(false);
+    });
+
+    it('should reject unsupported/malicious MIME types', () => {
+      expect(validateImageProperties(1024, 'application/javascript')).toBe(
+        false,
+      );
+      expect(validateImageProperties(1024, 'image/svg+xml')).toBe(false);
+      expect(validateImageProperties(1024, 'text/html')).toBe(false);
+    });
+  });
+
+  describe('validateSafeFilename', () => {
+    it('should allow safe, simple filenames', () => {
+      expect(validateSafeFilename('profile.png')).toBe(true);
+      expect(validateSafeFilename('background-123.jpg')).toBe(true);
+    });
+
+    it('should reject filenames containing path traversal characters', () => {
+      expect(validateSafeFilename('../etc/passwd')).toBe(false);
+      expect(validateSafeFilename('subfolder/image.png')).toBe(false);
+      expect(validateSafeFilename('..\\win.ini')).toBe(false);
+    });
+
+    it('should reject invalid or empty input types', () => {
+      expect(validateSafeFilename('')).toBe(false);
+      // @ts-ignore
+      expect(validateSafeFilename(null)).toBe(false);
+    });
+
+    it('should reject overly long filenames', () => {
+      const longName = 'a'.repeat(256) + '.png';
+      expect(validateSafeFilename(longName)).toBe(false);
+    });
+
+    it('should reject filenames containing null bytes', () => {
+      expect(validateSafeFilename('image\0.png')).toBe(false);
+      expect(validateSafeFilename('image\u0000.png')).toBe(false);
+    });
+
+    it('should reject filenames without or with dangerous extensions', () => {
+      expect(validateSafeFilename('profile')).toBe(false);
+      expect(validateSafeFilename('profile.exe')).toBe(false);
+      expect(validateSafeFilename('profile.png.sh')).toBe(false);
+      expect(validateSafeFilename('.png')).toBe(false); // No base name
+    });
+
+    it('should allow safe extensions in different casings', () => {
+      expect(validateSafeFilename('profile.PNG')).toBe(true);
+      expect(validateSafeFilename('profile.Jpeg')).toBe(true);
+      expect(validateSafeFilename('profile.WebP')).toBe(true);
+    });
+
+    it('should reject percent-encoded path traversal bypass attempts', () => {
+      expect(validateSafeFilename('%2e%2e%2fetc/passwd')).toBe(false);
+      expect(validateSafeFilename('images/%2e%2e%2fphoto.png')).toBe(false);
+      expect(validateSafeFilename('%2e%2e%2fprofile.png')).toBe(false);
+      expect(validateSafeFilename('%2E%2E%2Fprofile.png')).toBe(false);
+    });
+
+    it('should reject Unicode-normalized path traversal bypass attempts', () => {
+      expect(validateSafeFilename('\uFF0E\uFF0E\uFF0Fprofile.png')).toBe(false);
+      expect(validateSafeFilename('\u2024\u2024\uFF0Fprofile.png')).toBe(false);
+    });
+
+    it('should safely reject malformed URI sequences', () => {
+      expect(validateSafeFilename('profile%E0%A2%a.png')).toBe(false);
+    });
+
+    it('should correctly process safe percent-encoded filenames', () => {
+      expect(validateSafeFilename('my%20photo.png')).toBe(true);
+    });
+  });
+});
