@@ -1,0 +1,21 @@
+# Dependency & Build Directories
+node_modules/
+dist/
+build/
+
+# Environment and Secret Files
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+secrets.json
+credentials.json
+
+# Logs & OS Files
+*.log
+.DS_Store
+Thumbs.db
