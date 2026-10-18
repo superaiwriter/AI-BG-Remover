@@ -9,3 +9,6 @@
   <a href="https://aistudio.google.com/apps">Start building</a>
 
 </div>
+
+## Security
+For security policy and reporting instructions, see [SECURITY.md](SECURITY.md).
