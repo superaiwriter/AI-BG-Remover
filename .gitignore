@@ -1,0 +1,23 @@
+node_modules/
+dist/
+build/
+*.log
+
+# Secrets & Environment Variables
+.env
+.env*.local
+!.env.example
+
+# Credentials & Key Stores
+*.key
+*.pem
+*.pub
+*.p12
+*.pfx
+secrets.json
+credentials.json
+
+# Local Configuration & IDE Metadata
+.vscode/
+.idea/
+.DS_Store
